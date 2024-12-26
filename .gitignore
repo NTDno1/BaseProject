@@ -131,3 +131,19 @@ $RECYCLE.BIN/
 .DS_Store
 
 _NCrunch*
+*.vsidx
+.vs/ProjectEvaluation/democicd.strings.v9.bin
+.vs/ProjectEvaluation/democicd.projects.v9.bin
+.vs/ProjectEvaluation/democicd.metadata.v9.bin
+*.bin
+.vs/ProjectEvaluation/democicd.strings.v9.bin
+.vs/ProjectEvaluation/democicd.projects.v9.bin
+.vs/ProjectEvaluation/democicd.metadata.v9.bin
+*.bin
+*.testlog
+*.bin
+.vs/ProjectEvaluation/democicd.metadata.v9.bin
+.vs/ProjectEvaluation/democicd.projects.v9.bin
+.vs/ProjectEvaluation/democicd.strings.v9.bin
+.vs/DemoCICD/v17/DocumentLayout.json
+.vs/DemoCICD/v17/TestStore/0/000.testlog

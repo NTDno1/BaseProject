@@ -19,10 +19,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\DemoCICD.API\DemoCICD.API.csproj" />
     <ProjectReference Include="..\..\src\DemoCICD.Application\DemoCICD.Application.csproj" />
+    <ProjectReference Include="..\..\src\DemoCICD.Contract\DemoCICD.Contract.csproj" />
     <ProjectReference Include="..\..\src\DemoCICD.Domain\DemoCICD.Domain.csproj" />
+    <ProjectReference Include="..\..\src\DemoCICD.Infrastructure\DemoCICD.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\DemoCICD.Persistance\DemoCICD.Persistance.csproj" />
     <ProjectReference Include="..\..\src\DemoCICD.Presentation\DemoCICD.Presentation.csproj" />
-    <ProjectReference Include="..\..\src\Infrastructure\DemoCICD.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

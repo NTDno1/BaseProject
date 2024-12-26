@@ -1,0 +1,10 @@
+﻿using DemoCICD.Contract.Share;
+
+namespace DemoCICD.Application.UserCases.V1.Commands.Product;
+public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
+{
+    public Task<Result> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+}

@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Abstractions\Entities\" />
+    <Folder Include="Abstractions\Repositories\" />
+    <Folder Include="Entities\" />
+    <Folder Include="Enumerations\" />
+    <Folder Include="Share\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0" />
+  </ItemGroup>
+
 </Project>
