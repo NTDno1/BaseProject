@@ -323,7 +323,7 @@ public class ArchitectureTests
     }
 
     [Fact]
-    public void QueryHandler_Should_HaveNamingConventionEndingQueryHandler()
+    public void QueryHandlers_Should_Have_NamingConventionEndingQueryHandler()
     {
         // Arrage
         var assembly = Application.AssemblyReference.Assembly;
@@ -332,7 +332,7 @@ public class ArchitectureTests
         var testResult = Types
             .InAssembly(assembly)
             .That()
-            .ImplementInterface(typeof(IQuery<>))
+            .ImplementInterface(typeof(IQueryHandler<,>))
             .Should().HaveNameEndingWith("QueryHandler")
             .GetResult();
 
