@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Abstractions\Entities\" />
     <Folder Include="Abstractions\Repositories\" />
-    <Folder Include="Entities\" />
     <Folder Include="Enumerations\" />
     <Folder Include="Share\" />
   </ItemGroup>

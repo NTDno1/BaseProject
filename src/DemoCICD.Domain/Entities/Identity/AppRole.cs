@@ -11,5 +11,5 @@ public class AppRole : IdentityRole<Guid>
 
     public virtual ICollection<IdentityRoleClaim<Guid>> Claim { get; set; }
 
-    public virtual ICollection<Permission<Guid>> Permissions { get; set; }
+    public virtual ICollection<Permission> Permissions { get; set; }
 }

@@ -45,9 +45,18 @@ public class Error
         return Code == other.Code && Message == other.Message;
     }
 
-    public override bool Equals(object? obj) => obj is Error error && Equals(error);
+    public override bool Equals(object? obj)
+    {
+        return obj is Error error && Equals(error);
+    }
 
-    public override int GetHashCode() => HashCode.Combine(Code, Message);
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Code, Message);
+    }
 
-    public override string ToString() => Code;
+    public override string ToString()
+    {
+        return Code;
+    }
 }

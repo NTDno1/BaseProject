@@ -1,8 +1,9 @@
 ﻿using System.Reflection;
 
-namespace DemoCICD.API;
-
-public static class AssemblyReference
+namespace DemoCICD.API
 {
-    public static readonly Assembly Assembly = typeof(Assembly).Assembly;
+    public static class AssemblyReference
+    {
+        public static readonly Assembly Assembly = typeof(AssemblyReference).Assembly;
+    }
 }
