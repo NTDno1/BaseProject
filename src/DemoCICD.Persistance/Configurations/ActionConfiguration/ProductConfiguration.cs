@@ -1,4 +1,4 @@
-﻿using DemoCICD.Domain.Entities;
+﻿using DemoCICD.Domain.Entities.Identity;
 using DemoCICD.Persistance.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
