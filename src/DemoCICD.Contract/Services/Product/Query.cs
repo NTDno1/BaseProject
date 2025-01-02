@@ -6,5 +6,5 @@ public static class Query
 {
     public record GetProductQuery() : IQuery<List<ProductResponse>>;
 
-    public record GetProductById() : IQuery<ProductResponse>;
+    public record GetProductById(Guid Id) : IQuery<ProductResponse>;
 }

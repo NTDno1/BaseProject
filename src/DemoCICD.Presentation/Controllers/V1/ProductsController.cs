@@ -1,4 +1,5 @@
-﻿using DemoCICD.Contract.Services.Product;
+﻿using Asp.Versioning;
+using DemoCICD.Contract.Services.Product;
 using DemoCICD.Contract.Share;
 using DemoCICD.Presentation.Abstractions;
 using MediatR;
@@ -6,10 +7,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DemoCICD.Presentation.Controllers.V1;
+[ApiVersion(1)]
 public class ProductsController : ApiController
 {
     public ProductsController(ISender sender) : base(sender)
     {
+    }
+
+    [HttpPost(Name = "CreateProducts")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Products([FromBody] Command.CreateProductCommand CreateProduct)
+    {
+        var result = await Sender.Send(CreateProduct);
+        return Ok(result);
     }
 
     [HttpGet(Name = "GetProducts")]
@@ -18,6 +29,34 @@ public class ProductsController : ApiController
     public async Task<IActionResult> GetProducts(CancellationToken cancellationToken)
     {
         var result = await Sender.Send(new Query.GetProductQuery());
+        return Ok(result);
+    }
+
+    [HttpGet("{productId}")]
+    [ProducesResponseType(typeof(Result<Response.ProductResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Products(Guid productId)
+    {
+        var result = await Sender.Send(new Query.GetProductById(productId));
+        return Ok(result);
+    }
+
+    [HttpDelete("{productId}")]
+    [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteProducts(Guid productId)
+    {
+        var result = await Sender.Send(new Command.DeleteProductCommand(productId));
+        return Ok(result);
+    }
+
+    [HttpPut("{productId}")]
+    [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Products(Guid productId, [FromBody] Command.UpdateProductCommand updateProduct)
+    {
+        var updateProductCommand = new Command.UpdateProductCommand(productId, updateProduct.Name, updateProduct.Price, updateProduct.Description);
+        var result = await Sender.Send(updateProductCommand);
         return Ok(result);
     }
 }
