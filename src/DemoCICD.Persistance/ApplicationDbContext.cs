@@ -29,4 +29,6 @@ public class ApplicationDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     public DbSet<ActionInFunction> ActionInFunctions { get; set; }
 
     public DbSet<Permission> Permissions { get; set; }
+
+    public DbSet<Product> Products { get; set; }
 }

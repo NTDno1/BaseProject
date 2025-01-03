@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using DemoCICD.Contract.Extensions;
 using DemoCICD.Contract.Services.Product;
 using DemoCICD.Contract.Share;
 using DemoCICD.Presentation.Abstractions;
@@ -26,9 +27,21 @@ public class ProductsController : ApiController
     [HttpGet(Name = "GetProducts")]
     [ProducesResponseType(typeof(Result<IEnumerable<Response.ProductResponse>>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetProducts(CancellationToken cancellationToken)
+    public async Task<IActionResult> Products(
+        string? serchTerm = null,
+        string? sortColumn = null,
+        string? sortOrder = null,
+        string? sortColumnAndOrder = null,
+        int pageIndex = 1,
+        int pageSize = 10)
     {
-        var result = await Sender.Send(new Query.GetProductQuery());
+        var result = await Sender.Send(new Query.GetProductsQuery(
+            serchTerm,
+            sortColumn,
+            SortOrderExtension.ConvertStringToSortOrder(sortOrder),
+            SortOrderExtension.ConvertStringToSortOrderV2(sortColumnAndOrder),
+            pageIndex,
+            pageSize));
         return Ok(result);
     }
 

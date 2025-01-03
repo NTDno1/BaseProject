@@ -8,18 +8,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DemoCICD.Presentation.Controllers.V2;
 [ApiVersion(2)]
-public class ProductsV2Controller : ApiController
+public class ProductsController : ApiController
 {
-    public ProductsV2Controller(ISender sender) : base(sender)
+    public ProductsController(ISender sender) : base(sender)
     {
     }
 
-    [HttpGet(Name = "GetProductsV2")]
+    [HttpGet(Name = "GetProducts")]
     [ProducesResponseType(typeof(Result<IEnumerable<Response.ProductResponse>>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetProductsV2(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetProducts(CancellationToken cancellationToken)
     {
-        var result = await Sender.Send(new Query.GetProductQuery());
-        return Ok(result);
+        return Ok("GetProductV2");
     }
 }
