@@ -236,7 +236,7 @@ namespace DemoCICD.Persistance.Migrations
                     b.ToTable("Permissions", (string)null);
                 });
 
-            modelBuilder.Entity("DemoCICD.Domain.Entities.Identity.Product", b =>
+            modelBuilder.Entity("DemoCICD.Domain.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

@@ -11,12 +11,12 @@ using Microsoft.EntityFrameworkCore;
 namespace DemoCICD.Application.UserCases.V1.Queries.Product;
 public sealed class GetProductsQueryHandler : IQueryHandler<Query.GetProductsQuery, PagedResult<Response.ProductResponse>>
 {
-    private readonly IRepositoryBase<Domain.Entities.Identity.Product, Guid> _productRepository;
+    private readonly IRepositoryBase<Domain.Entities.Product, Guid> _productRepository;
 
     private readonly IMapper _mapper;
     private readonly ApplicationDbContext _context;
 
-    public GetProductsQueryHandler(IRepositoryBase<Domain.Entities.Identity.Product, Guid> productRepository, IMapper mapper, ApplicationDbContext context)
+    public GetProductsQueryHandler(IRepositoryBase<Domain.Entities.Product, Guid> productRepository, IMapper mapper, ApplicationDbContext context)
     {
         _productRepository = productRepository;
         _mapper = mapper;
@@ -27,18 +27,18 @@ public sealed class GetProductsQueryHandler : IQueryHandler<Query.GetProductsQue
     {
         if (request.SortColumnAndOrder.Any()) // =>>  Raw Query when order by multi column
         {
-            var PageIndex = request.PageIndex <= 0 ? PagedResult<Domain.Entities.Identity.Product>.DefaultPageIndex : request.PageIndex;
+            var PageIndex = request.PageIndex <= 0 ? PagedResult<Domain.Entities.Product>.DefaultPageIndex : request.PageIndex;
             var PageSize = request.PageSize <= 0
-                ? PagedResult<Domain.Entities.Identity.Product>.DefaultPageSize
-                : request.PageSize > PagedResult<Domain.Entities.Identity.Product>.UpperPageSize
-                ? PagedResult<Domain.Entities.Identity.Product>.UpperPageSize : request.PageSize;
+                ? PagedResult<Domain.Entities.Product>.DefaultPageSize
+                : request.PageSize > PagedResult<Domain.Entities.Product>.UpperPageSize
+                ? PagedResult<Domain.Entities.Product>.UpperPageSize : request.PageSize;
 
             // ============================================
             var productsQuery = string.IsNullOrWhiteSpace(request.SearchTerm)
-                ? @$"SELECT * FROM {nameof(Domain.Entities.Identity.Product)} ORDER BY "
-                : @$"SELECT * FROM {nameof(Domain.Entities.Identity.Product)}
-                        WHERE {nameof(Domain.Entities.Identity.Product.Name)} LIKE '%{request.SearchTerm}%'
-                        OR {nameof(Domain.Entities.Identity.Product.Description)} LIKE '%{request.SearchTerm}%'
+                ? @$"SELECT * FROM {nameof(Domain.Entities.Product)} ORDER BY "
+                : @$"SELECT * FROM {nameof(Domain.Entities.Product)}
+                        WHERE {nameof(Domain.Entities.Product.Name)} LIKE '%{request.SearchTerm}%'
+                        OR {nameof(Domain.Entities.Product.Description)} LIKE '%{request.SearchTerm}%'
                         ORDER BY ";
 
             foreach (var item in request.SortColumnAndOrder)
@@ -55,7 +55,7 @@ public sealed class GetProductsQueryHandler : IQueryHandler<Query.GetProductsQue
 
             var totalCount = await _context.Products.CountAsync(cancellationToken);
 
-            var productPagedResult = PagedResult<Domain.Entities.Identity.Product>.Create(products,
+            var productPagedResult = PagedResult<Domain.Entities.Product>.Create(products,
                 PageIndex,
                 PageSize,
                 totalCount);
@@ -64,7 +64,7 @@ public sealed class GetProductsQueryHandler : IQueryHandler<Query.GetProductsQue
 
             return Result.Success(result);
         }
-        else // =>> Entity Framework
+        else
         {
             var productsQuery = string.IsNullOrWhiteSpace(request.SearchTerm)
             ? _productRepository.FindAll()
@@ -74,7 +74,7 @@ public sealed class GetProductsQueryHandler : IQueryHandler<Query.GetProductsQue
             ? productsQuery.OrderByDescending(GetSortProperty(request))
             : productsQuery.OrderBy(GetSortProperty(request));
 
-            var products = await PagedResult<Domain.Entities.Identity.Product>.CreateAsync(productsQuery,
+            var products = await PagedResult<Domain.Entities.Product>.CreateAsync(productsQuery,
                 request.PageIndex,
                 request.PageSize);
 
@@ -83,7 +83,7 @@ public sealed class GetProductsQueryHandler : IQueryHandler<Query.GetProductsQue
         }
     }
 
-    private static Expression<Func<Domain.Entities.Identity.Product, object>> GetSortProperty(Query.GetProductsQuery request)
+    private static Expression<Func<Domain.Entities.Product, object>> GetSortProperty(Query.GetProductsQuery request)
     {
         return request.SortColumn?.ToLower() switch
         {

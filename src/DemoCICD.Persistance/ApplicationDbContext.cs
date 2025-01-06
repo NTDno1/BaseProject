@@ -1,4 +1,5 @@
-﻿using DemoCICD.Domain.Entities.Identity;
+﻿using DemoCICD.Domain.Entities;
+using DemoCICD.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Action = DemoCICD.Domain.Entities.Identity.Action;

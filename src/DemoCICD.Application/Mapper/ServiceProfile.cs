@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DemoCICD.Contract.Abstractions.Share;
 using DemoCICD.Contract.Services.Product;
-using DemoCICD.Domain.Entities.Identity;
+using DemoCICD.Domain.Entities;
 
 namespace DemoCICD.Application.Mapper;
 public class ServiceProfile : Profile

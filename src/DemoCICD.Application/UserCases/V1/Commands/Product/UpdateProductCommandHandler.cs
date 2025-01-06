@@ -1,30 +1,35 @@
 ﻿using DemoCICD.Contract.Share;
 using DemoCICD.Domain.Abstractions.Repositories;
+using DemoCICD.Domain.Exceptions;
 using DemoCICD.Persistance;
 using MediatR;
 using static DemoCICD.Contract.Services.Product.Command;
 
 namespace DemoCICD.Application.UserCases.V1.Commands.Product;
-public sealed class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
+public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
 {
     private readonly IRepositoryBase<Domain.Entities.Product, Guid> _productRepository;
 
     private readonly ApplicationDbContext _context;
 
-    public CreateProductCommandHandler(
+    private readonly IPublisher _publisher;
+
+    public UpdateProductCommandHandler(
         IRepositoryBase<Domain.Entities.Product, Guid> productRepository,
         IPublisher publisher,
         ApplicationDbContext context)
     {
         _productRepository = productRepository;
         _context = context;
+        _publisher = publisher;
     }
 
-    public async Task<Result> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
-        var product = Domain.Entities.Product.CreateProduct(Guid.NewGuid(), request.Name, request.Price, request.Description);
-        _productRepository.Add(product);
+        var product = await _productRepository.FindByIdAsync(request.Id) ?? throw new ProductException.ProductNotFoundException(request.Id);
+        product.Update(request.Name, request.Price, request.Description);
         await _context.SaveChangesAsync();
-        return Result.Success("Tạo thành công Product Id:" + product.Id);
+        return Result.Success("Cập nhật thành công Product Id: " + product.Id);
     }
 }
+

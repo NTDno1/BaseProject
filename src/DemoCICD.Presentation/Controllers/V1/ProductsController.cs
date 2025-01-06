@@ -66,7 +66,7 @@ public class ProductsController : ApiController
     [HttpPut("{productId}")]
     [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Products(Guid productId, [FromBody] Command.UpdateProductCommand updateProduct)
+    public async Task<IActionResult> Products(Guid productId, [FromBody] Command.CreateProductCommand updateProduct)
     {
         var updateProductCommand = new Command.UpdateProductCommand(productId, updateProduct.Name, updateProduct.Price, updateProduct.Description);
         var result = await Sender.Send(updateProductCommand);
