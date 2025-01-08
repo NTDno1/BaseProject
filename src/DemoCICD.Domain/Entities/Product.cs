@@ -33,9 +33,4 @@ public class Product : DomainEntity<Guid>
     {
         return new Product(id, name, price, description);
     }
-
-    public void Delete()
-    {
-        Id = Guid.Empty;
-    }
 }

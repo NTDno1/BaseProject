@@ -12,7 +12,9 @@ public static class ServiceCollectionExtentions
         return services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(AssemblyReference.Assembly);
-        }).AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>))
+        })
+        .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>))
+        .AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipelineBehavior<,>))
         .AddValidatorsFromAssembly(Contract.AssemblyReference.Assembly, includeInternalTypes: true);
     }
 

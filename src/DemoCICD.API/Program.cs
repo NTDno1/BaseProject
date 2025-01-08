@@ -1,9 +1,9 @@
 ﻿using DemoCICD.API.DependencyInjection.Extensions;
 using DemoCICD.API.Middleware;
 using DemoCICD.Application.DependencyInjection.Extensions;
+using DemoCICD.Infrastructure.DependencyInjection.Extensions;
 using DemoCICD.Persistance.DependencyInjection.Extensions;
 using DemoCICD.Persistance.DependencyInjection.Options;
-using FluentValidation;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Serilog;
 var builder = WebApplication.CreateBuilder(args);
@@ -25,17 +25,18 @@ builder.Logging
     .AddSerilog();
 
 builder.Host.UseSerilog();
-
-builder.Services.AddMediatR(options => options.RegisterServicesFromAssembly(DemoCICD.Application.AssemblyReference.Assembly));
-builder.Services.AddValidatorsFromAssembly(DemoCICD.Application.AssemblyReference.Assembly, includeInternalTypes: true);
-
 builder.Services.AddConfigureMediatR();
+
+//builder.Services.AddMediatR(options => options.RegisterServicesFromAssembly(DemoCICD.Application.AssemblyReference.Assembly));
+//builder.Services.AddValidatorsFromAssembly(DemoCICD.Application.AssemblyReference.Assembly, includeInternalTypes: true);
 
 // Configure Options and SQL
 builder.Services.ConfigureSqlServerRetryOptions(builder.Configuration.GetSection(nameof(SqlServerRetryOptions)));
 builder.Services.AddSqlConfiguration();
 builder.Services.AddConfigurationAutoMapper();
 builder.Services.AddRepositoryBaseConfiguration();
+
+builder.Services.AddInfrastructureDapper();
 
 //Api
 

@@ -21,6 +21,12 @@ public class ProductsController : ApiController
     public async Task<IActionResult> Products([FromBody] Command.CreateProductCommand CreateProduct)
     {
         var result = await Sender.Send(CreateProduct);
+
+        if (result.IsFailure)
+        {
+            return HandlerFailure(result);
+        }
+
         return Ok(result);
     }
 

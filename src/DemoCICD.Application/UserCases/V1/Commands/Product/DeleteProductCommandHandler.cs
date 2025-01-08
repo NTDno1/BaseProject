@@ -1,5 +1,6 @@
 ﻿using DemoCICD.Contract.Services.Product;
 using DemoCICD.Contract.Share;
+using DemoCICD.Domain.Abstractions;
 using DemoCICD.Domain.Abstractions.Repositories;
 using DemoCICD.Domain.Exceptions;
 using DemoCICD.Persistance;
@@ -9,8 +10,12 @@ public class DeleteProductCommandHandler : ICommandHandler<Command.DeleteProduct
 {
     private readonly IRepositoryBase<Domain.Entities.Product, Guid> _productRepository;
     private readonly ApplicationDbContext _context;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteProductCommandHandler(IRepositoryBase<Domain.Entities.Product, Guid> productRepository, ApplicationDbContext context)
+    public DeleteProductCommandHandler(
+        IRepositoryBase<Domain.Entities.Product, Guid> productRepository,
+        IUnitOfWork unitOfWork,
+        ApplicationDbContext context)
     {
         _productRepository = productRepository;
         _context = context;
