@@ -6,7 +6,7 @@ using DemoCICD.Domain.Exceptions;
 using DemoCICD.Persistance;
 
 namespace DemoCICD.Application.UserCases.V1.Commands.Product;
-public class DeleteProductCommandHandler : ICommandHandler<Command.DeleteProductCommand>
+public sealed class DeleteProductCommandHandler : ICommandHandler<Command.DeleteProductCommand>
 {
     private readonly IRepositoryBase<Domain.Entities.Product, Guid> _productRepository;
     private readonly ApplicationDbContext _context;

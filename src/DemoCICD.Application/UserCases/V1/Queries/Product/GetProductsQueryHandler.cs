@@ -5,7 +5,6 @@ using DemoCICD.Contract.Enumerations;
 using DemoCICD.Contract.Services.Product;
 using DemoCICD.Contract.Share;
 using DemoCICD.Domain.Abstractions.Repositories;
-using DemoCICD.Persistance;
 using Microsoft.EntityFrameworkCore;
 
 namespace DemoCICD.Application.UserCases.V1.Queries.Product;
@@ -14,9 +13,9 @@ public sealed class GetProductsQueryHandler : IQueryHandler<Query.GetProductsQue
     private readonly IRepositoryBase<Domain.Entities.Product, Guid> _productRepository;
 
     private readonly IMapper _mapper;
-    private readonly ApplicationDbContext _context;
+    private readonly DemoCICD.Persistance.ApplicationDbContext _context;
 
-    public GetProductsQueryHandler(IRepositoryBase<Domain.Entities.Product, Guid> productRepository, IMapper mapper, ApplicationDbContext context)
+    public GetProductsQueryHandler(IRepositoryBase<Domain.Entities.Product, Guid> productRepository, IMapper mapper, DemoCICD.Persistance.ApplicationDbContext context)
     {
         _productRepository = productRepository;
         _mapper = mapper;

@@ -6,7 +6,7 @@ using MediatR;
 using static DemoCICD.Contract.Services.Product.Command;
 
 namespace DemoCICD.Application.UserCases.V1.Commands.Product;
-public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
+public sealed class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
 {
     private readonly IRepositoryBase<Domain.Entities.Product, Guid> _productRepository;
 

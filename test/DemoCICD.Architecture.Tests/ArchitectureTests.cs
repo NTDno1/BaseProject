@@ -13,9 +13,8 @@ public class ArchitectureTests
     private const string ApiNamespace = "DemoCICD.API";
 
     #region =============== Infrastructure Leyer ===============
-
     [Fact]
-    public void Domain_Should_Not_HaveDependenceOnOtherProject()
+    public void Domain_Should_Not_HaveDependencyOnOtherProject()
     {
         // Arrage
         var assembly = Domain.AssemblyReference.Assembly;
@@ -26,7 +25,7 @@ public class ArchitectureTests
             InfrastructureNamespace,
             PersistenceNamespace,
             PresentationNamespace,
-            ApiNamespace,
+            ApiNamespace
         };
 
         // Act
@@ -36,7 +35,7 @@ public class ArchitectureTests
             .HaveDependencyOnAny(otherProjects)
             .GetResult();
 
-        // assert
+        // Assert
         testResult.IsSuccessful.Should().BeTrue();
     }
 
@@ -49,7 +48,7 @@ public class ArchitectureTests
         var otherProjects = new[]
         {
             InfrastructureNamespace,
-            //PersistenceNamespace, // Due to Implement sort multi columns by apply RawQuery with EntityFramework
+            PersistenceNamespace, // Due to Implement sort multi columns by apply RawQuery with EntityFramework
             PresentationNamespace,
             ApiNamespace
         };
@@ -135,6 +134,7 @@ public class ArchitectureTests
         // Assert
         testResult.IsSuccessful.Should().BeTrue();
     }
+
     #endregion =============== Infrastructure Layer ===============
 
     #region =============== Command ===============

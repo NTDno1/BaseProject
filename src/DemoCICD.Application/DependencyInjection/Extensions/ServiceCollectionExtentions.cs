@@ -1,4 +1,5 @@
 ﻿using DemoCICD.Application.Abstractions.Behaviors;
+using DemoCICD.Application.Behaviors;
 using DemoCICD.Application.Mapper;
 using FluentValidation;
 using MediatR;
@@ -13,9 +14,9 @@ public static class ServiceCollectionExtentions
         {
             cfg.RegisterServicesFromAssembly(AssemblyReference.Assembly);
         })
+         .AddValidatorsFromAssembly(Contract.AssemblyReference.Assembly, includeInternalTypes: true)
         .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>))
-        .AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipelineBehavior<,>))
-        .AddValidatorsFromAssembly(Contract.AssemblyReference.Assembly, includeInternalTypes: true);
+        .AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipelineBehavior<,>));
     }
 
     public static IServiceCollection AddConfigurationAutoMapper(this IServiceCollection services)
