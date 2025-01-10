@@ -22,10 +22,10 @@ public class ProductsController : ApiController
     {
         var result = await Sender.Send(CreateProduct);
 
-        if (result.IsFailure)
-        {
-            return HandlerFailure(result);
-        }
+        //if (result.IsFailure)
+        //{
+        //    return HandlerFailure(result);
+        //}
 
         return Ok(result);
     }
