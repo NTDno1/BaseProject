@@ -1,8 +1,9 @@
-﻿using DemoCICD.Contract.Share;
+﻿using DemoCICD.Contract.Services.V1.Product;
+using DemoCICD.Contract.Share;
 using DemoCICD.Domain.Abstractions;
-using DemoCICD.Domain.Abstractions.Dappers.Repositories.Product;
 using DemoCICD.Domain.Abstractions.Repositories;
-using static DemoCICD.Contract.Services.Product.Command;
+using MediatR;
+using static DemoCICD.Contract.Services.V1.Product.Command;
 
 namespace DemoCICD.Application.UserCases.V1.Commands.Product;
 public sealed class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
@@ -11,13 +12,16 @@ public sealed class CreateProductCommandHandler : ICommandHandler<CreateProductC
 
     private readonly IUnitOfWork _unitOfWork;
 
+    private readonly IPublisher _publisher;
+
     public CreateProductCommandHandler(
         IRepositoryBase<Domain.Entities.Product, Guid> productRepository,
         IUnitOfWork unitOfWork,
-        IProductRepository productRepository2)
+        IPublisher publisher)
     {
         _productRepository = productRepository;
         _unitOfWork = unitOfWork;
+        _publisher = publisher;
     }
 
     public async Task<Result> Handle(CreateProductCommand request, CancellationToken cancellationToken)
@@ -33,6 +37,14 @@ public sealed class CreateProductCommandHandler : ICommandHandler<CreateProductC
             product.Price,
             product.Id.ToString());
         _productRepository.Add(productSecond);
+
+        // => Send Email
+        //await _publisher.Publish(new DomainEvent.ProductCreated(productSecond.Id), cancellationToken);
+        //await _publisher.Publish(new DomainEvent.ProductDeleted(product.Id), cancellationToken);
+
+        await Task.WhenAll(
+            _publisher.Publish(new DomainEvent.ProductCreated(productSecond.Id), cancellationToken),
+            _publisher.Publish(new DomainEvent.ProductDeleted(product.Id), cancellationToken));
 
         return Result.Success("Tạo thành công Product Id:" + product.Id);
     }

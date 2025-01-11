@@ -1,4 +1,4 @@
-﻿using DemoCICD.Contract.Services.Product;
+﻿using DemoCICD.Contract.Services.V1.Product;
 using DemoCICD.Contract.Share;
 using DemoCICD.Domain.Abstractions;
 using DemoCICD.Domain.Abstractions.Repositories;

@@ -1,6 +1,6 @@
 ﻿using Asp.Versioning;
 using DemoCICD.Contract.Extensions;
-using DemoCICD.Contract.Services.Product;
+using DemoCICD.Contract.Services.V1.Product;
 using DemoCICD.Contract.Share;
 using DemoCICD.Presentation.Abstractions;
 using MediatR;
@@ -22,10 +22,10 @@ public class ProductsController : ApiController
     {
         var result = await Sender.Send(CreateProduct);
 
-        //if (result.IsFailure)
-        //{
-        //    return HandlerFailure(result);
-        //}
+        if (result.IsFailure)
+        {
+            return HandlerFailure(result);
+        }
 
         return Ok(result);
     }

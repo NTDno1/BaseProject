@@ -17,7 +17,6 @@
     <Folder Include="Abstractions\Messages\" />
     <Folder Include="Behaviors\" />
     <Folder Include="DependencyInjection\Options\" />
-    <Folder Include="UserCases\V2\" />
   </ItemGroup>
 
   <ItemGroup>

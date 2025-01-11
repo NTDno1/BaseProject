@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using DemoCICD.Contract.Abstractions.Share;
-using DemoCICD.Contract.Services.Product;
+using DemoCICD.Contract.Services.V1.Product;
 using DemoCICD.Domain.Entities;
 
 namespace DemoCICD.Application.Mapper;
@@ -13,6 +13,7 @@ public class ServiceProfile : Profile
         CreateMap<PagedResult<Product>, PagedResult<Response.ProductResponse>>().ReverseMap();
 
         // V2
-        //CreateMap<Product, Contract.Services.V2.Product.Response.ProductResponse>().ReverseMap();
+        CreateMap<Product, Contract.Services.V2.Product.Response.ProductResponse>().ReverseMap();
+        CreateMap<PagedResult<Product>, PagedResult<Contract.Services.V2.Product.Response.ProductResponse>>().ReverseMap();
     }
 }

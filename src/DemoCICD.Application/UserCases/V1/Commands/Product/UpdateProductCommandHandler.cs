@@ -3,7 +3,7 @@ using DemoCICD.Domain.Abstractions.Repositories;
 using DemoCICD.Domain.Exceptions;
 using DemoCICD.Persistance;
 using MediatR;
-using static DemoCICD.Contract.Services.Product.Command;
+using static DemoCICD.Contract.Services.V1.Product.Command;
 
 namespace DemoCICD.Application.UserCases.V1.Commands.Product;
 public sealed class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
