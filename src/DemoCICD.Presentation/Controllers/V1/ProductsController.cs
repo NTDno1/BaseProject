@@ -15,21 +15,6 @@ public class ProductsController : ApiController
     {
     }
 
-    [HttpPost(Name = "CreateProducts")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Products([FromBody] Command.CreateProductCommand CreateProduct)
-    {
-        var result = await Sender.Send(CreateProduct);
-
-        if (result.IsFailure)
-        {
-            return HandlerFailure(result);
-        }
-
-        return Ok(result);
-    }
-
     [HttpGet(Name = "GetProducts")]
     [ProducesResponseType(typeof(Result<IEnumerable<Response.ProductResponse>>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -60,12 +45,18 @@ public class ProductsController : ApiController
         return Ok(result);
     }
 
-    [HttpDelete("{productId}")]
-    [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
+    [HttpPost(Name = "CreateProducts")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> DeleteProducts(Guid productId)
+    public async Task<IActionResult> Products([FromBody] Command.CreateProductCommand CreateProduct)
     {
-        var result = await Sender.Send(new Command.DeleteProductCommand(productId));
+        var result = await Sender.Send(CreateProduct);
+
+        if (result.IsFailure)
+        {
+            return HandlerFailure(result);
+        }
+
         return Ok(result);
     }
 
@@ -76,6 +67,15 @@ public class ProductsController : ApiController
     {
         var updateProductCommand = new Command.UpdateProductCommand(productId, updateProduct.Name, updateProduct.Price, updateProduct.Description);
         var result = await Sender.Send(updateProductCommand);
+        return Ok(result);
+    }
+
+    [HttpDelete("{productId}")]
+    [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteProducts(Guid productId)
+    {
+        var result = await Sender.Send(new Command.DeleteProductCommand(productId));
         return Ok(result);
     }
 }

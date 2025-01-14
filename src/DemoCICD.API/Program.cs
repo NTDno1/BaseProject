@@ -1,9 +1,11 @@
-﻿using DemoCICD.API.DependencyInjection.Extensions;
+﻿using Carter;
+using DemoCICD.API.DependencyInjection.Extensions;
 using DemoCICD.API.Middleware;
 using DemoCICD.Application.DependencyInjection.Extensions;
 using DemoCICD.Infrastructure.Dapper.DependencyInjection.Extensions;
 using DemoCICD.Persistance.DependencyInjection.Extensions;
 using DemoCICD.Persistance.DependencyInjection.Options;
+using DemoCICD.Presentation.APIs;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Serilog;
 var builder = WebApplication.CreateBuilder(args);
@@ -48,6 +50,8 @@ builder
 
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
+builder.Services.AddCarter();
+
 builder.Services
         .AddSwaggerGenNewtonsoftSupport()
         .AddFluentValidationRulesToSwagger()
@@ -65,6 +69,11 @@ builder.Services
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+// Add API Endpoint
+app.NewVersionedApi("products-minimal-show-on-swagger").MapProductApiV1().MapProductApiV2();
+
+app.MapCarter();
 
 app.UseHttpsRedirection();
 app.MapControllers();
