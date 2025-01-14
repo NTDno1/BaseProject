@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DemoCICD.Application\DemoCICD.Application.csproj" />
+    <ProjectReference Include="..\DemoCICD.Infrastructure.Dapper\DemoCICD.Infrastructure.Dapper.csproj" />
     <ProjectReference Include="..\DemoCICD.Persistance\DemoCICD.Persistance.csproj" />
     <ProjectReference Include="..\DemoCICD.Presentation\DemoCICD.Presentation.csproj" />
   </ItemGroup>

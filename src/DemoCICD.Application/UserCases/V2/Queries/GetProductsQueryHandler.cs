@@ -1,51 +1,28 @@
-﻿using System.Linq.Expressions;
-using AutoMapper;
-using DemoCICD.Contract.Abstractions.Share;
-using DemoCICD.Contract.Enumerations;
+﻿using AutoMapper;
 using DemoCICD.Contract.Services.V2.Product;
 using DemoCICD.Contract.Share;
-using DemoCICD.Domain.Abstractions.Repositories;
-using MediatR;
+using DemoCICD.Domain.Abstractions.Dappers;
 
 namespace DemoCICD.Application.UserCases.V2.Queries.Product;
-public sealed class GetProductsQueryHandler : IRequestHandler<Query.GetProductsQuery, Result<PagedResult<Response.ProductResponse>>>
-{
-    private readonly IRepositoryBase<Domain.Entities.Product, Guid> _productRepository;
 
+public sealed class GetProductsQueryHandler : IQueryHandler<Query.GetProductsQueryDapper, Result<List<Response.ProductResponse>>>
+{
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public GetProductsQueryHandler(IRepositoryBase<Domain.Entities.Product, Guid> productRepository, IMapper mapper)
+    public GetProductsQueryHandler(IUnitOfWork unitOfWork,
+        IMapper mapper)
     {
-        _productRepository = productRepository;
         _mapper = mapper;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<PagedResult<Response.ProductResponse>>> Handle(Query.GetProductsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<Result<List<Response.ProductResponse>>>> Handle(Query.GetProductsQueryDapper request, CancellationToken cancellationToken)
     {
-        var productsQuery = string.IsNullOrWhiteSpace(request.SearchTerm)
-        ? _productRepository.FindAll()
-        : _productRepository.FindAll(x => x.Name.Contains(request.SearchTerm) || x.Description.Contains(request.SearchTerm));
+        var products = await _unitOfWork.Products.GetAllAsync();
 
-        productsQuery = request.SortOrder == SortOrder.Descending
-        ? productsQuery.OrderByDescending(GetSortProperty(request))
-        : productsQuery.OrderBy(GetSortProperty(request));
+        var results = _mapper.Map<List<Response.ProductResponse>>(products);
 
-        var products = await PagedResult<Domain.Entities.Product>.CreateAsync(productsQuery,
-            request.PageIndex,
-            request.PageSize);
-
-        var result = _mapper.Map<PagedResult<Response.ProductResponse>>(products);
-        return Result.Success(result);
-    }
-
-    private static Expression<Func<Domain.Entities.Product, object>> GetSortProperty(Query.GetProductsQuery request)
-    {
-        return request.SortColumn?.ToLower() switch
-        {
-            "name" => product => product.Name,
-            "price" => product => product.Price,
-            "description" => product => product.Description,
-            _ => product => product.Id
-        };
+        return Result.Success(results);
     }
 }

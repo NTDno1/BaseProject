@@ -1,7 +1,7 @@
 ﻿using DemoCICD.API.DependencyInjection.Extensions;
 using DemoCICD.API.Middleware;
 using DemoCICD.Application.DependencyInjection.Extensions;
-using DemoCICD.Infrastructure.DependencyInjection.Extensions;
+using DemoCICD.Infrastructure.Dapper.DependencyInjection.Extensions;
 using DemoCICD.Persistance.DependencyInjection.Extensions;
 using DemoCICD.Persistance.DependencyInjection.Options;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
@@ -36,6 +36,7 @@ builder.Services.AddSqlConfiguration();
 builder.Services.AddConfigurationAutoMapper();
 builder.Services.AddRepositoryBaseConfiguration();
 
+// Configure Dapper
 builder.Services.AddInfrastructureDapper();
 
 //Api

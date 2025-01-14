@@ -8,5 +8,7 @@ public static class Query
 {
     public record GetProductsQuery(string? SearchTerm, string? SortColumn, SortOrder? SortOrder, int PageIndex, int PageSize) : IQuery<PagedResult<ProductResponse>>;
 
+    public record GetProductsQueryDapper() : IQuery<Result<List<ProductResponse>>>;
+
     public record GetProductById(Guid Id) : IQuery<ProductResponse>;
 }

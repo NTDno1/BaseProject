@@ -3,7 +3,6 @@ using DemoCICD.Contract.Services.V1.Product;
 using DemoCICD.Contract.Share;
 using DemoCICD.Domain.Abstractions.Repositories;
 using DemoCICD.Domain.Exceptions;
-using DemoCICD.Persistance;
 
 namespace DemoCICD.Application.UserCases.V1.Queries.Product;
 public class GetProductByIdQueryHandler : IQueryHandler<Query.GetProductById, Response.ProductResponse>
@@ -12,13 +11,10 @@ public class GetProductByIdQueryHandler : IQueryHandler<Query.GetProductById, Re
 
     private readonly IMapper _mapper;
 
-    private readonly ApplicationDbContext _context;
-
-    public GetProductByIdQueryHandler(IRepositoryBase<Domain.Entities.Product, Guid> productRepository, IMapper mapper, ApplicationDbContext context)
+    public GetProductByIdQueryHandler(IRepositoryBase<Domain.Entities.Product, Guid> productRepository, IMapper mapper)
     {
         _productRepository = productRepository;
         _mapper = mapper;
-        _context = context;
     }
 
     public async Task<Result<Response.ProductResponse>> Handle(Query.GetProductById request, CancellationToken cancellationToken)
